@@ -17,6 +17,23 @@ venv/
 deploy/client/target-exe-bundle/
 deploy/client/build-tmp/
 
+# Generated deploy bundles (run .\deploy\pack-deploy.ps1 to regenerate)
+deploy/client/cv2_hack.py
+deploy/client/requirements.txt
+deploy/client/install-target.ps1
+deploy/client/script.bat
+deploy/client/silent_run.vbs
+deploy/client/*.mp3
+deploy/client/*.mp4
+deploy/client/*.mkv
+deploy/client/*.wav
+deploy/client/target/connector.py
+deploy/client/target/target.ini
+deploy/client/target/launch.vbs
+deploy/server/listener.py
+deploy/server/operator.ini
+deploy/server/requirements.txt
+
 # Editor / OS
 .cursor/
 .vscode/

@@ -23,8 +23,28 @@ $ClientTarget = Join-Path $ClientDir "target"
 New-Item -ItemType Directory -Force -Path $ServerDir | Out-Null
 New-Item -ItemType Directory -Force -Path $ClientTarget | Out-Null
 
+# Remove prior generated bundle files so deploy/ stays reproducible.
+foreach ($path in @(
+    (Join-Path $ServerDir "listener.py"),
+    (Join-Path $ServerDir "operator.ini"),
+    (Join-Path $ServerDir "requirements.txt"),
+    (Join-Path $ClientDir "cv2_hack.py"),
+    (Join-Path $ClientDir "requirements.txt"),
+    (Join-Path $ClientDir "install-target.ps1"),
+    (Join-Path $ClientDir "script.bat"),
+    (Join-Path $ClientDir "silent_run.vbs"),
+    (Join-Path $ClientTarget "connector.py"),
+    (Join-Path $ClientTarget "target.ini"),
+    (Join-Path $ClientTarget "launch.vbs")
+)) {
+    if (Test-Path -LiteralPath $path) {
+        Remove-Item -Force -LiteralPath $path
+    }
+}
+
 Copy-Item -Force (Join-Path $RepoRoot "operator\listener.py") (Join-Path $ServerDir "listener.py")
 Copy-Item -Force (Join-Path $RepoRoot "operator\operator.ini") (Join-Path $ServerDir "operator.ini")
+Copy-Item -Force (Join-Path $RepoRoot "operator\requirements.txt") (Join-Path $ServerDir "requirements.txt")
 
 Copy-Item -Force (Join-Path $RepoRoot "target\connector.py") (Join-Path $ClientTarget "connector.py")
 Copy-Item -Force (Join-Path $RepoRoot "target\target.ini") (Join-Path $ClientTarget "target.ini")

@@ -21,7 +21,7 @@ This folder holds **two bundles** you can copy to machines independently:
 | **`server/`** | Operator TCP listener + CLI + optional global hotkeys | **Linux VM** (course server, cloud VM, etc.) |
 | **`client/`** | Target connector + fullscreen player + Windows bootstrap | **Windows 8** target laptop |
 
-Canonical sources live at the repo root (`operator/`, `target/`, `cv2_hack.py`, etc.). **Refresh the bundles** whenever you change code:
+Canonical sources live at the repo root (`operator/`, `target/`, `cv2_hack.py`, `operator/requirements.txt`, etc.). **Refresh the bundles** whenever you change code:
 
 ```powershell
 cd path\to\Advanced security 475 exp v2
