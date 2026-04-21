@@ -2,6 +2,8 @@
 *.webm
 *.mp4
 *.mkv
+# Lab default clip (tracked so deploy/client pack includes it for targets)
+!**/giraffe_clipped.mp4
 
 # Python
 __pycache__/
