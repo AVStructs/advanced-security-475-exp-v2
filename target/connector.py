@@ -46,6 +46,9 @@ DEFAULT_CONFIG_PATH = os.path.join(_bundle_dir(), "target.ini")
 PROTOCOL_VERSION = 1
 
 _media_proc: Optional[subprocess.Popen] = None
+# When True (default), media child uses CREATE_NO_WINDOW on Windows (no flash).
+# Set False with --show-media-console to surface Python/OpenCV errors in a console.
+_hide_media_console: bool = True
 
 
 @dataclass
@@ -196,7 +199,7 @@ def _handle_play(args: str, log: logging.Logger, cfg: ConnectorConfig) -> str:
         "args": argv,
         "cwd": cfg.media_root,
     }
-    if sys.platform == "win32":
+    if sys.platform == "win32" and _hide_media_console:
         popen_kw["creationflags"] = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
     try:
@@ -204,6 +207,17 @@ def _handle_play(args: str, log: logging.Logger, cfg: ConnectorConfig) -> str:
     except OSError as exc:
         log.error("failed to spawn media process: %s", exc)
         return f"ERR spawn {exc!s}"
+
+    time.sleep(0.4)
+    if _media_proc.poll() is not None:
+        rc = _media_proc.returncode
+        log.error(
+            "media process exited immediately rc=%s (run cv2_hack with same args "
+            "in a console, or start connector with --show-media-console)",
+            rc,
+        )
+        _media_proc = None
+        return f"ERR media exited immediately rc={rc}"
 
     log.info("PLAY started pid=%s video=%s audio=%s", _media_proc.pid, video_abs, audio_abs)
     return f"OK play pid={_media_proc.pid} video={video_abs}"
@@ -374,7 +388,16 @@ def main(argv: Optional[list[str]] = None) -> int:
         action="store_true",
         help="run a single session then exit (no reconnect loop)",
     )
+    parser.add_argument(
+        "--show-media-console",
+        action="store_true",
+        help="on Windows, do not hide the media player console (debug import/GPU errors)",
+    )
     args = parser.parse_args(argv)
+
+    global _hide_media_console
+    if args.show_media_console:
+        _hide_media_console = False
 
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
