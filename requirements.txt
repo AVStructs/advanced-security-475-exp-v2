@@ -1,0 +1,6 @@
+opencv-python
+pygame
+pyautogui
+pycaw
+comtypes
+keyboard

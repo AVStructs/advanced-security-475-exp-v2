@@ -11,6 +11,10 @@ __pycache__/
 .venv/
 venv/
 
+# PyInstaller target bundle output
+deploy/client/target-exe-bundle/
+deploy/client/build-tmp/
+
 # Editor / OS
 .cursor/
 .vscode/
