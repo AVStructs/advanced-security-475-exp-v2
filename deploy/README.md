@@ -96,7 +96,7 @@ client/
   silent_run.vbs
 ```
 
-`target.ini` uses **`[media] project_root = ..`**: media files and `cv2_hack.py` live in **`client/`** (parent of `target/`). Keep **`giraffe_clipped.mp4`** and **`giraffe_clipped_audio.mp3`** (or your own assets) next to `cv2_hack.py`, or update the INI.
+`target.ini` uses **`[media] project_root = ..`**: media files and `cv2_hack.py` live in **`client/`** (parent of `target/`). Put **`giraffe_clipped.mp4`** and **`giraffe_clipped_audio.mp3`** (or your own assets) in the **repo root**, then run **`.\deploy\pack-deploy.ps1`** — it copies **`*.mp3`**, **`*.mp4`**, **`*.mkv`**, **`*.wav`** from the repo root into **`deploy/client/`** when those files exist. If you add media only on one PC, copy them by hand into **`deploy/client/`** next to **`cv2_hack.py`**. You can also change **`default_video`** / **`default_audio`** in **`target.ini`** to match whatever filenames you use.
 
 ### Deploy on Windows
 
