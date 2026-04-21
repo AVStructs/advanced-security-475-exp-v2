@@ -34,6 +34,14 @@ foreach ($name in @("cv2_hack.py", "requirements.txt", "install-target.ps1", "sc
     Copy-Item -Force (Join-Path $RepoRoot $name) (Join-Path $ClientDir $name)
 }
 
+# Media next to cv2_hack.py (same folder as deploy/client root per target.ini project_root = ..)
+foreach ($pattern in @("*.mp3", "*.mp4", "*.mkv", "*.wav")) {
+    Get-ChildItem -LiteralPath $RepoRoot -File -Filter $pattern -ErrorAction SilentlyContinue | ForEach-Object {
+        Copy-Item -Force $_.FullName (Join-Path $ClientDir $_.Name)
+        Write-Output "  copied media: $($_.Name)"
+    }
+}
+
 Write-Output "Pack complete:"
 Write-Output "  Server -> $ServerDir"
 Write-Output "  Client -> $ClientDir"
